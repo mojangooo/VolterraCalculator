@@ -12,10 +12,12 @@ from PyQt5.QtCore import QSize, QThread, pyqtSignal, QProcess
 import matplotlib.pyplot as plt
 
 GUI_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(GUI_DIR, '..', 'core'))
+# Temporary until modules are renamed and use package imports
+for _sub in ('core', 'gpu', 'storage', 'visualization'):
+	sys.path.insert(0, os.path.join(GUI_DIR, '..', _sub))
 
 from Volterra_In_Out_7 import VolterraResponse
-from Volterra_File_Operations import readKernels, writeKernels
+from Volterra_File_Operations import readKernels, writeKernels, KERNEL_DIR
 from Volterra_Operations_noncausal import wraparoundToOrdered, make_symmetrical
 import Volterra_PlotSystem as vps
 import Volterra_File_Operations as vo5
@@ -570,7 +572,7 @@ class VolterraCalculator(QWidget):
 					self, 'System Loaded', f'System "{system_name}" has been loaded successfully.')
 			except FileNotFoundError:
 				QMessageBox.warning(
-					self, 'Load Warning', f'The system "{system_name}" could not be found. Please ensure that the system files are located in the "Volterra_Kernels" folder under the current working directory.')
+					self, 'Load Warning', f'The system "{system_name}" could not be found. Please ensure that the system files are located in the folder {KERNEL_DIR}.')
 			except Exception as e:
 				QMessageBox.critical(
 					self, 'Load Error', f'Error loading system: {str(e)}')
@@ -584,7 +586,7 @@ class VolterraCalculator(QWidget):
 			system_name = selected_item.text()
 			del self.volterra_systems[system_name]  # Delete from memory
 
-			folder_name = 'Volterra_Kernels'  # Assuming all systems are stored in this folder
+			folder_name = KERNEL_DIR
 			file_paths = [
 				os.path.join(folder_name, f'h0{system_name}.csv'),
 				os.path.join(folder_name, f'h1{system_name}.csv'),
