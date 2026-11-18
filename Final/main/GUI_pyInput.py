@@ -11,6 +11,9 @@ from PyQt5.QtGui import QIcon, QFontDatabase, QFont
 from PyQt5.QtCore import QSize, QThread, pyqtSignal, QProcess
 import matplotlib.pyplot as plt
 
+GUI_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(GUI_DIR, '..', 'core'))
+
 from Volterra_In_Out_7 import VolterraResponse
 from Volterra_File_Operations import readKernels, writeKernels
 from Volterra_Operations_noncausal import wraparoundToOrdered, make_symmetrical
@@ -84,7 +87,7 @@ class VolterraCalculator(QWidget):
 				font-size: 14pt;
 			}
 		""")
-		self.setWindowIcon(QIcon('Final/images/logo-no-background.png'))
+		self.setWindowIcon(QIcon(os.path.join(GUI_DIR, 'images', 'logo-no-background.png')))
 
 		self.setGeometry(100, 100, 1000, 600)
 
