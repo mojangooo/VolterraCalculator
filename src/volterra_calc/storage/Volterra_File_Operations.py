@@ -8,10 +8,12 @@ import copy
 
 # Handles saving/reading of Volterra System files, that contain the kernels.
 
+KERNEL_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'data', 'Volterra_Kernels'))
+
 
 
 def readKernels(name='', folderName=''):
-	wdin = 'Volterra_Kernels'
+	wdin = KERNEL_DIR
 	# Read Kernel files
 	df = pd.read_csv(wdin+folderName+'/'+'h0'+name+'.csv',
 					 sep='\t', header=None, dtype=str)
@@ -120,12 +122,12 @@ def writeKernels(system, name=''):
 	h4 = system.h4
 	h5 = system.h5
 	# Check if the directory exists
-	if not os.path.exists('Volterra_Kernels'):
+	if not os.path.exists(KERNEL_DIR):
 		# If not, create it
-		os.makedirs('Volterra_Kernels')
+		os.makedirs(KERNEL_DIR)
 
 	# prepare raw data for write
-	wdout = 'Volterra_Kernels'
+	wdout = KERNEL_DIR
 	l1 = system.len1
 	l2 = system.len2
 	l3 = system.len3

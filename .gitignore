@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+
+# Generated output
+Plots/
+volterra_output_kernel_*.png
