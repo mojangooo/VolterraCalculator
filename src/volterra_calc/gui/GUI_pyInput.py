@@ -602,7 +602,7 @@ class VolterraCalculator(QWidget):
 				except FileNotFoundError:
 					pass  # Ignore if the file doesn't exist
 
-			self.update_system_list()
+			self.update_ui()
 			QMessageBox.information(
 				self, 'System Deleted', f'{system_name} has been deleted successfully.')
 		else:
