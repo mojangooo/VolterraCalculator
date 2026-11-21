@@ -11,3 +11,6 @@ venv/
 # Generated output
 Plots/
 volterra_output_kernel_*.png
+
+#
+data/
