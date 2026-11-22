@@ -12,5 +12,5 @@ venv/
 Plots/
 volterra_output_kernel_*.png
 
-#
+#Data
 data/
