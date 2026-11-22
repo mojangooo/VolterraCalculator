@@ -7,12 +7,12 @@ import time
 import json
 import os
 from datetime import datetime
-from opencl_util import create_context_and_queue
+from opencl_util import try_create_context_and_queue
 # import Volterra_PlotSystem as Volterra_PlotSystem
 # from Volterra_File_Operations import readKernels, writeKernels
 
 # Volterra_In_Out_6.py
-ctx, queue = create_context_and_queue(device_type='GPU', profiling=True)
+ctx, queue = try_create_context_and_queue(device_type='GPU', profiling=True)  # (None, None) without GPU
 mf = cl.mem_flags
 
 kernels_code = """
@@ -337,7 +337,7 @@ __kernel void volterraH5(
 
 
 """
-prg = cl.Program(ctx, kernels_code).build()
+prg = cl.Program(ctx, kernels_code).build() if ctx is not None else None
 
 
 class VolterraResponse:

@@ -16,7 +16,7 @@ GUI_DIR = os.path.dirname(os.path.abspath(__file__))
 for _sub in ('core', 'gpu', 'storage', 'visualization'):
 	sys.path.insert(0, os.path.join(GUI_DIR, '..', _sub))
 
-from Volterra_In_Out_7 import VolterraResponse
+from Volterra_In_Out_7 import VolterraResponse, GPU_AVAILABLE
 from Volterra_File_Operations import readKernels, writeKernels, KERNEL_DIR
 from Volterra_Operations_noncausal import wraparoundToOrdered, make_symmetrical
 import Volterra_PlotSystem as vps
@@ -293,6 +293,12 @@ class VolterraCalculator(QWidget):
 		chain_button.clicked.connect(
 			lambda: self.binaryOperation(vo5.chainVolterraSystems_opencl))
 		invert_button.clicked.connect(self.invertKernels)
+
+		# Concatenate and Invert run only on the GPU
+		if not GPU_AVAILABLE:
+			for button in [chain_button, invert_button]:
+				button.setEnabled(False)
+				button.setToolTip('Requires an OpenCL GPU')
 
 		operation_buttons.addWidget(add_button)
 		operation_buttons.addWidget(subtract_button)
@@ -711,6 +717,9 @@ def main():
 	app = QApplication(sys.argv)
 	ex = VolterraCalculator()
 	ex.show()
+	if not GPU_AVAILABLE:
+		QMessageBox.warning(ex, 'No GPU found',
+							'No OpenCL GPU was found. GPU operations (Concatenate, Invert) are not available.')
 	sys.exit(app.exec_())
 
 
