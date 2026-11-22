@@ -76,6 +76,18 @@ def create_context_and_queue(device_type='GPU', profiling=False, info=False):
     raise ValueError(f"No {device_type} devices found")
 
 
+def try_create_context_and_queue(device_type='GPU', profiling=False, info=False):
+    """
+    Like create_context_and_queue, but returns (None, None) instead of raising
+    when OpenCL has no platform or no device of the specified type.
+    """
+    try:
+        return create_context_and_queue(device_type, profiling, info)
+    except (ValueError, cl.Error) as e:
+        print(f"OpenCL not available: {e}")
+        return None, None
+
+
 if __name__ == "__main__":
     # List all available platforms and devices
     list_platforms_and_devices()
